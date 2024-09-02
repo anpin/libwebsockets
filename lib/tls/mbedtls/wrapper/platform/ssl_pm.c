@@ -173,21 +173,19 @@ int ssl_pm_new(SSL *ssl)
 
     if (TLS_ANY_VERSION != ssl->version) {
         if (TLS1_2_VERSION == ssl->version)
-            version = MBEDTLS_SSL_MINOR_VERSION_3;
-        else if (TLS1_1_VERSION == ssl->version)
-            version = 2;
+            version = MBEDTLS_SSL_VERSION_TLS1_2;
         else
-            version = 1;
+            version = MBEDTLS_SSL_VERSION_TLS1_3;
 
-        mbedtls_ssl_conf_max_version(&ssl_pm->conf, MBEDTLS_SSL_MAJOR_VERSION_3, version);
-        mbedtls_ssl_conf_min_version(&ssl_pm->conf, MBEDTLS_SSL_MAJOR_VERSION_3, version);
+        mbedtls_ssl_conf_max_tls_version(&ssl_pm->conf, version);
+        mbedtls_ssl_conf_min_tls_version(&ssl_pm->conf, version);
     } else {
-        mbedtls_ssl_conf_max_version(&ssl_pm->conf, MBEDTLS_SSL_MAJOR_VERSION_3, MBEDTLS_SSL_MINOR_VERSION_3);
+        mbedtls_ssl_conf_max_tls_version(&ssl_pm->conf,MBEDTLS_SSL_VERSION_TLS1_3);
 
 #if defined(MBEDTLS_SSL_PROTO_TLS1_2)
-        mbedtls_ssl_conf_min_version(&ssl_pm->conf, MBEDTLS_SSL_MAJOR_VERSION_3, MBEDTLS_SSL_MINOR_VERSION_3);
+        mbedtls_ssl_conf_min_tls_version(&ssl_pm->conf, MBEDTLS_SSL_VERSION_TLS1_2);
 #else
-        mbedtls_ssl_conf_min_version(&ssl_pm->conf, MBEDTLS_SSL_MAJOR_VERSION_3, 1);
+        mbedtls_ssl_conf_min_tls_version(&ssl_pm->conf, MBEDTLS_SSL_VERSION_TLS1_3);
 #endif
     }
 

@@ -31,6 +31,8 @@
 #include "mbedtls/net.h"
 #endif
 #endif
+#include <lwip/sockets.h>  // For setsockopt and other socket-related functions
+#include <lwip/inet.h>     // For inet_ntop
 
 int
 lws_send_pipe_choked(struct lws *wsi)
